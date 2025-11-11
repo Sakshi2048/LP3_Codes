@@ -18,7 +18,10 @@ We use a DP table where dp[i][w] = max profit using first i items with capacity 
 #include <bits/stdc++.h>
 using namespace std;
 
-int knapsack(int W, vector<int> &wt, vector<int> &val, int n) {
+int knapsack(int W, vector<int> &wt, vector<int> &val) {
+
+    int n = val.size();
+
     vector <vector<int> > dp(n + 1, vector<int>(W + 1, 0));
 
     for (int i = 1; i <= n; i++) {
@@ -53,7 +56,7 @@ int main() {
     cout << "Enter Knapsack capacity: ";
     cin >> W;
 
-    cout << "Maximum value = " << knapsack(W, wt, val, n);
+    cout << "Maximum value = " << knapsack(W, wt, val);
     return 0;
 }
 

@@ -26,12 +26,10 @@ struct Node {
     }
 };
 
-// Comparator for min-heap
-struct Compare {
-    bool operator()(Node* a, Node* b) {
-        return a->freq > b->freq; 
-    }
-};
+// Comparator for min-heap as a function
+bool compare(Node* a, Node* b) {
+    return a->freq > b->freq;
+}
 
 // Print Huffman Codes
 void printCodes(Node* root, string code) {
@@ -60,18 +58,21 @@ int main() {
     cout << "Enter frequencies:\n";
     for (int i = 0; i < n; i++) cin >> freq[i];
 
-    // Min-Heap (priority queue)
-    priority_queue<Node*, vector<Node*>, Compare> pq;
+    // Min-Heap (priority queue) using function pointer comparator
+    priority_queue<Node*, vector<Node*>, bool(*)(Node*,Node*) > pq(compare);
 
     // Create leaf nodes
     for (int i = 0; i < n; i++) {
-        pq.push(new Node(chars[i], freq[i]));
+        Node* x = new Node(chars[i], freq[i]);
+        pq.push(x);
     }
 
     // Build Huffman Tree
     while (pq.size() > 1) {
-        Node* left = pq.top(); pq.pop();
-        Node* right = pq.top(); pq.pop();
+        Node* left = pq.top(); 
+        pq.pop();
+        Node* right = pq.top(); 
+        pq.pop();
 
         Node* merged = new Node('#', left->freq + right->freq);
         merged->left = left;
